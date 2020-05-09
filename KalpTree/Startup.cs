@@ -56,8 +56,8 @@ namespace KalpTree
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    name: "Login",
+                    template: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }
