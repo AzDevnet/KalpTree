@@ -17,12 +17,12 @@ namespace KalpTree.Controllers
         //{
         //    return View();
         //}
-        const string SessionName = "_Name";
-        const string SessionEmail = "_Email";
-        private readonly ISession session;
+        //const string SessionName = "_Name";
+        //const string SessionEmail = "_Email";
+        public readonly ISession session;
         public AccountController(IHttpContextAccessor httpContextAccessor)
         {
-            this.session = httpContextAccessor.HttpContext.Session;
+            session = httpContextAccessor.HttpContext.Session;
         }
         [HttpGet]
         public IActionResult Login()
@@ -35,11 +35,18 @@ namespace KalpTree.Controllers
         {
             if (ModelState.IsValid)
             {
-                this.session.SetString(SessionName, "Ranjit Jha");
-                this.session.SetString(SessionEmail, loginView.Email);
+                session.SetString("SessionName", "Ranjit Jha");
+                session.SetString("SessionEmail", loginView.Email);
+                session.ToString();
             }
 
             return View(loginView);
+        }
+        public ActionResult LogOff()
+        {
+            session.Clear();
+            return RedirectToAction("login", "account");
+            
         }
     }
 }

@@ -9,9 +9,6 @@ namespace KalpTree.Models
 {
     public class SignUpViewModel
     {
-        public string farmer
-        {
-            get;
-        }
+        
     }
 }

@@ -5,27 +5,35 @@
     //var image = Model.farmer;
 }
 <style>
-    table {
+    .tableBorderClass {
         border-collapse: collapse;
         border-style: hidden;
     }
 
-        table td {
+        .tabletdBorderClass {
             border: 1px solid black;
            padding:16px;
         }
 </style>
 <div id="SignUp">
     
-    <table align="center">
+    <table align="center" class="tableBorderClass">
         <tbody>
             <tr >
-                <td ><a href=""><img src="~/images/farmer.png" alt="Farmer" title="Farmer" /></a></td>
-                <td ><a href=""><img src="~/images/Expert.png" alt="Expert" title="Expert" /></a></td>
+                <td class="tabletdBorderClass" ><a href=""><img src="~/images/farmer.png" alt="Farmer" title="Farmer" /></a>
+                <p align="center">Farmer</p>
+                </td>
+                <td class="tabletdBorderClass"><a href=""><img src="~/images/Expert.png" alt="Expert" title="Expert" /></a>
+                     <p align="center">Expert</p>
+                </td>
             </tr>
+
             <tr>
-                <td  ><a href=""><img src="~/images/Buyer.png" alt="Buyer" title="Buyer" /></a></td>
-                <td  ><a href=""><img src="~/images/AmeteurFarmer.png" alt="Ameteur" title="Ameteur" /></a></td>
+                <td  class="tabletdBorderClass"><a href=""><img src="~/images/Buyer.png" alt="Buyer" title="Buyer" /></a>
+                      <p align="center">Buyer</p>
+                </td>
+                <td  class="tabletdBorderClass"><a href=""><img src="~/images/AmeteurFarmer.png" alt="Ameteur" title="Ameteur" /></a>
+                      <p align="center">Ameteur</p></td>
             </tr>
         </tbody>
     </table>

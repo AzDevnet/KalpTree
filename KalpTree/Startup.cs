@@ -33,10 +33,22 @@ namespace KalpTree
             });
 
             services.AddDistributedMemoryCache();
-            services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(10);//You can set Time   
-            });
+            services.AddSession();// options => {
+              //  options.IdleTimeout = TimeSpan.FromMinutes(10);//You can set Time   
+           // });
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true; // consent required
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddSession(opts =>
+            {
+                opts.Cookie.IsEssential = true; // make the session cookie Essential
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -62,7 +74,7 @@ namespace KalpTree
             {
                 routes.MapRoute(
                     name: "Login",
-                    template: "{controller=Account}/{action=Login}/{id?}");
+                    template: "{controller=Home}/{action=index}/{id?}");
             });
         }
     }
