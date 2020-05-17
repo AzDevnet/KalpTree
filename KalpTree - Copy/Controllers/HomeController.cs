@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using KalpTree.Models;
-using Microsoft.AspNetCore.Routing;
 
 namespace KalpTree.Controllers
 {
@@ -27,12 +26,9 @@ namespace KalpTree.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Search(string Search)
+        public IActionResult Search()
         {
-            //string url = string.Format("/search/search?page={0}&search={1}",1,Search);
-            string url = string.Format("/search/Search?search={0}", Search);
-            return Redirect(url);
-            //return RedirectToAction("search", new RouteValueDictionary( new { controller = "Search", action = "Search", page = 1 }));
+            return RedirectToAction("search", "search");
         }
     }
 }

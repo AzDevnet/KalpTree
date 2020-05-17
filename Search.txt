@@ -1,0 +1,56 @@
+AIzaSyAtwZPdNd53XGDsIAdcn3uDpqouSTvdZbM
+
+AIzaSyAtwZPdNd53XGDsIAdcn3uDpqouSTvdZbM 
+
+<script async src="https://cse.google.com/cse.js?cx=017187624319691678927:vm8ijgn7r4t"></script>
+<div class="gcse-search"></div>
+
+https://www.googleapis.com/customsearch/v1?key=AIzaSyAtwZPdNd53XGDsIAdcn3uDpqouSTvdZbM&cx=017187624319691678927:vm8ijgn7r4t&q=football&alt=json
+
+
+
+<table style="width:70%;text-align:justify;padding:2px;margin-left:15%;margin-right:15%;">
+    <thead style="background-color:#faebd7;">
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            @*    <th></th>
+                <th></th>*@
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in @Model)
+        {
+            <tr>
+                <th scope="row" style="vertical-align:text-top; padding:2px;">@*@item.Id*@</th>
+                <td style="vertical-align:text-top; padding:2px;"><img src="@item.userType" height="40px;" width="40px;" /></td>
+                <td style="vertical-align:top;text-align:justify; padding:2px;">
+                    @item.Decsription
+                    <table style="width:80%;" class="tableBorderClass">
+                        <tr>
+                            <td style="padding:2px;background-color:aliceblue">@item.Name</td>
+                            <td style="padding:2px;">Phone#: @item.PhoneNumber</td>
+                        </tr>
+                    </table>
+
+            </tr>
+
+        }
+        
+    </tbody>
+    <tr style="background-color:#faebd7;">
+        <td></td><td></td>
+                 <td style="text-align:right">
+                     @for (int i = 1; i <= Model.PageCount; i++)
+                     {
+                         @Html.ActionLink(i.ToString() + "  ", "search", new { page = i , search=ViewBag.Search}) 
+
+                     }
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @(Model.PageCount)
+                 </td>
+    </tr>
+</table>

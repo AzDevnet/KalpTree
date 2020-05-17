@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KalpTree.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,16 +31,6 @@ namespace KalpTree
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            var GoogleSearchApiURL = Configuration["Appconfig:GoogleSearchApiURL"].ToString();
-            var GoogleSearchApiKey = Configuration["Appconfig:GoogleSearchApiKey"].ToString();
-            var GoogleSearchApiCX = Configuration["Appconfig:GoogleSearchApiCX"].ToString();
-            var LoginApiUrl = Configuration["LoginApi:LoginApiUrl"].ToString();
-
-            services.Configure<GoogleSearchAPI>(config => config.url = GoogleSearchApiURL);
-            services.Configure<GoogleSearchAPI>(config => config.Key = GoogleSearchApiKey);
-            services.Configure<GoogleSearchAPI>(config => config.CX = GoogleSearchApiCX);
-            services.Configure<KalpTreeAPI>(config => config.LoginApiUrl = LoginApiUrl);
 
             services.AddDistributedMemoryCache();
             services.AddSession();// options => {

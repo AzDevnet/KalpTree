@@ -1,0 +1,31 @@
+﻿
+@*@using PagedList;
+@using PagedList.Mvc;*@
+
+@model List<Result>
+@{
+    ViewBag.Title = "Search";
+    
+}
+<table style="width:70%;text-align:justify;padding:2px;margin-left:15%;margin-right:15%;">
+    <tr>
+        <td>Your Search Details:</td>
+        <td>@ViewBag.Search</td>
+    </tr>
+</table>
+<br />
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li style="width:500px">
+            <a href="@item.Link" style="color:blue">@item.Title</a><br />
+            <span style="font-size:15px;color:green">@item.Link</span><br />
+            <span style="color:gray">@item.Snippet</span>
+        </li>
+    }
+
+</ul>
+
+
+@*@Html.DisplayNameFor(Model => ((PagedList.PagedListMetaData)Model).TotalItemCount)*@
