@@ -3,9 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <ApplicationIcon />
-    <OutputType>Exe</OutputType>
-    <StartupObject />
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>beea72b5-abd8-4cf6-9583-380eaabdcc88</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
