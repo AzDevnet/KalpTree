@@ -63,7 +63,8 @@ namespace KalpTree.Controllers
 
                 session.SetString("SessionName", jsondata[0].userfname +" "+ jsondata[0].userlname);
                 session.SetString("SessionEmail", jsondata[0].userlogonid);
-                session.ToString();
+                string url = string.Format("/home/index");
+                return Redirect(url);
             }
 
             return View(loginView);

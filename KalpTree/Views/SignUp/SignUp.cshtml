@@ -8,52 +8,137 @@
    
 </style>
 <div id="SignUp">
-    
-    <table align="center" class="tableBorderClass">
-        <tbody>
-            <tr >
-                <td class="tabletdBorderClass" ><a href=""><img src="~/images/farmer.png" alt="Farmer" title="Farmer" /></a>
-                <p align="center">Farmer</p>
-                </td>
-                <td class="tabletdBorderClass"><a href=""><img src="~/images/Expert.png" alt="Expert" title="Expert" /></a>
-                     <p align="center">Expert</p>
-                </td>
-            </tr>
+    @if (string.IsNullOrWhiteSpace(ViewBag.UserType))
+    {
+        <table align="center" class="tableBorderClass">
+            <tbody>
+                <tr>
+                    <td class="tabletdBorderClass">
+                        <a href="/Signup/Signup?userType=farmer"><img src="~/images/farmer.png" alt="Farmer" title="Farmer" /></a>
+                        <p align="center">Farmer</p>
+                    </td>
+                    <td class="tabletdBorderClass">
+                        <a href="/Signup/Signup?userType=Expert"><img src="~/images/Expert.png" alt="Expert" title="Expert" /></a>
+                        <p align="center">Expert</p>
+                    </td>
+                </tr>
 
+                <tr>
+                    <td class="tabletdBorderClass">
+                        <a href="/Signup/Signup?userType=Buyer"><img src="~/images/Buyer.png" alt="Buyer" title="Buyer" /></a>
+                        <p align="center">Buyer</p>
+                    </td>
+                    <td class="tabletdBorderClass">
+                        <a href="/Signup/Signup?userType=Ameteur farmer"><img src="~/images/AmeteurFarmer.png" alt="Ameteur" title="Ameteur" /></a>
+                        <p align="center">Ameteur Farmer</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table style="width:70%;margin-left:15%;margin-right:15%;padding:5px;">
             <tr>
-                <td  class="tabletdBorderClass"><a href=""><img src="~/images/Buyer.png" alt="Buyer" title="Buyer" /></a>
-                      <p align="center">Buyer</p>
-                </td>
-                <td  class="tabletdBorderClass"><a href=""><img src="~/images/AmeteurFarmer.png" alt="Ameteur" title="Ameteur" /></a>
-                      <p align="center">Ameteur</p></td>
-            </tr>
-        </tbody>
-    </table>
+                <td width="50%">
+                    <form method="post">
+                        <table width="100%">
+                            <tr>
+                                <td width="50%">
+                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                    <table width="100%">
+                                        <tr>
+                                            <td colspan="2"><h1><strong>Sign up</strong> </h1></td>
 
-    <table>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td>
+                                                <input asp-for="userlogonid" class="form-control" />
+                                                @*<span asp-validation-for="userlogonid" class="text-danger"></span>*@
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Password</td>
+                                            <td>
+                                                <input asp-for="password" class="form-control" />
+                                                @* <span asp-validation-for="password" class="text-danger"></span>*@
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>First Name</td>
+                                            <td>
+                                                <input asp-for="userfname" class="form-control" />
+                                                @*<span asp-validation-for="userfname" class="text-danger"></span>*@
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last name</td>
+                                            <td>
+                                                <input asp-for="userlname" class="form-control" />
+                                                @*<span asp-validation-for="userlname" class="text-danger"></span>*@
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>User Type</td>
+                                            <td>
+                                                <select class="form-control" id="userrole" name="Userrole">
+
+                                                    @if (ViewBag.UserType == "Farmer")
+                                                    {
+                                                        <option selected>Farmer</option>}
+                                                    else
+                                                    {
+                                                        <option>Farmer</option>}
+                                                    @if (ViewBag.UserType == "Expert")
+                                                    {
+                                                        <option selected>Expert</option>}
+                                                    else
+                                                    {
+                                                        <option>Expert</option>}
+                                                    @if (ViewBag.UserType == "Buyer")
+                                                    {
+                                                        <option selected>Buyer</option> }
+                                                    else
+                                                    {
+                                                        <option>Buyer</option>}
+                                                    @if (ViewBag.UserType == "Ameteur farmer")
+                                                    {
+                                                        <option selected>Ameteur farmer</option> }
+                                                    else
+                                                    {
+                                                        <option>Ameteur farmer</option>}
+                                                </select>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td> <button type="submit" class="btn btn-primary">Sign up</button></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                
+                            </tr>
+                        </table>
+
+
+                    </form>
+                </td>
+                <td width="50%">
+                    <br />
+                    @if (ViewBag.SuccessCode == "1")
+                    {
+                        <span style="color:green;text-align:center;"><h2>Congratulation</h2><br /><h3>User created successfully!!!</h3>
+                    <br /><h4> Please use you email and password to access your account </h4></span>
+                    }
+                    else if (ViewBag.SuccessCode == "0")
+                    {
+                        <span style="color:red;text-align:center;"><h2>Error</h2><br /><h3>Please try again</h3></span>
+                    }
+                </td>
+            </tr>
+        </table>
+    }
+
 </div>
