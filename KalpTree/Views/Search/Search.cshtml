@@ -1,31 +1,33 @@
-﻿
-@*@using PagedList;
-@using PagedList.Mvc;*@
+﻿@*@using PagedList;
+    @using PagedList.Mvc;*@
 
 @model List<Result>
 @{
     ViewBag.Title = "Search";
-    
+
 }
 <table style="width:70%;text-align:justify;padding:2px;margin-left:15%;margin-right:15%;">
     <tr>
-        <td>Your Search Details:</td>
-        <td>@ViewBag.Search</td>
+        <td><img src="~/images/search.gif" height="20px" width="20px"><b>Your Search Details:</b>@ViewBag.Search</td>
     </tr>
 </table>
 <br />
+<table style="width:70%;text-align:justify;padding:2px;margin-left:15%;margin-right:15%;">
+    <tr>
+        <td>
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <li style="width:500px">
+                        <a href="@item.Link" style="color:blue">@item.Title</a><br />
+                        <span style="font-size:15px;color:green">@item.Link</span><br />
+                        <span style="color:gray">@item.Snippet</span>
+                    </li>
+                }
 
-<ul>
-    @foreach (var item in Model)
-    {
-        <li style="width:500px">
-            <a href="@item.Link" style="color:blue">@item.Title</a><br />
-            <span style="font-size:15px;color:green">@item.Link</span><br />
-            <span style="color:gray">@item.Snippet</span>
-        </li>
-    }
-
-</ul>
-
+            </ul>
+        </td>
+    </tr>
+</table>
 
 @*@Html.DisplayNameFor(Model => ((PagedList.PagedListMetaData)Model).TotalItemCount)*@

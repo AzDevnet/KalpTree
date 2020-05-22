@@ -7,15 +7,15 @@
     <UserSecretsId>beea72b5-abd8-4cf6-9583-380eaabdcc88</UserSecretsId>-->
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="images\**" />
     <Content Remove="images\**" />
     <EmbeddedResource Remove="images\**" />
     <None Remove="images\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="web.config" />
   </ItemGroup>
 
 
@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="PagedList.Mvc" Version="4.5.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
   </ItemGroup>
 
 

@@ -26,5 +26,9 @@ namespace KalpTree.Models
 
         [Required]
         public string userrole { get; set; }
+
+        [Required]
+        [StringLength(4)]
+        public string CaptchaCode { get; set; }
     }
 }

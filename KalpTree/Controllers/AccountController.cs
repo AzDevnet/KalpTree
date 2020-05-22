@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using KalpTree.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -16,12 +18,6 @@ namespace KalpTree.Controllers
     public class AccountController : Controller
     {
         // GET: /<controller>/
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-        //const string SessionName = "_Name";
-        //const string SessionEmail = "_Email";
         public readonly ISession session;
         private KalpTreeAPI kalpTreeAPI;
         public AccountController(IHttpContextAccessor httpContextAccessor,IOptions<KalpTreeAPI> options)
@@ -38,42 +34,58 @@ namespace KalpTree.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginView)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrWhiteSpace(Convert.ToString(Request.Cookies["SessionEmail"])))
             {
-                WebClient webClient = new WebClient();
-                webClient.Headers.Add("user-agent", "Only a test!");
-                var request = webClient.DownloadString(kalpTreeAPI.LoginApiUrl + "?UserId=" + loginView.Email + "&Password=" + loginView.Password);
-                //HttpWebResponse response=(HttpWebResponse) request.GetResponse();
-                //Stream dataReader = response.GetResponseStream();
-                //StreamReader reader = new StreamReader(request);
-                //string responseReader = reader.ReadToEnd();
-                List<UserDetails> jsondata = JsonConvert.DeserializeObject<List<UserDetails>>(request);
+                if (ModelState.IsValid)
+                {
+                    WebClient webClient = new WebClient();
+                    webClient.Headers.Add("user-agent", "Only a test!");
+                    var request = webClient.DownloadString(kalpTreeAPI.LoginApiUrl + "?UserId=" + loginView.Email + "&Password=" + loginView.Password);
 
-                //var results = new List<UserDetails>();
-                //if (jsondata.items != null)
-                //    foreach (var item in jsondata)
-                //    {
-                //        results.Add(new UserDetails
-                //        {
-                //            userfname = item.userfname,
-                //            userlname = item.userlname,
-                //            userlogonid = item.userlogonid,
-                //        });
-                //    }
+                    List<UserDetails> jsondata = JsonConvert.DeserializeObject<List<UserDetails>>(request);
 
-                session.SetString("SessionName", jsondata[0].userfname +" "+ jsondata[0].userlname);
-                session.SetString("SessionEmail", jsondata[0].userlogonid);
-                string url = string.Format("/home/index");
-                return Redirect(url);
+
+                    session.SetString("SessionName", jsondata[0].userfname + " " + jsondata[0].userlname);
+                    session.SetString("SessionEmail", jsondata[0].userlogonid);
+
+                    Response.Cookies.Append("SessionEmail", jsondata[0].userlogonid,
+                        new CookieOptions() {
+                            Expires = DateTime.Now.AddDays(2),
+                            IsEssential=true
+                        });
+                    Response.Cookies.Append("SessionName", jsondata[0].userfname + " " + jsondata[0].userlname,
+                        new CookieOptions()
+                        {
+                            Expires = DateTime.Now.AddDays(2),
+                            IsEssential=true
+                        });
+                    
+                    string url = string.Format("/home/index");
+                    return Redirect(url);
+                }
             }
-
+            else
+            {
+                session.SetString("SessionName",Request.Cookies["SessionName"].ToString());
+                session.SetString("SessionEmail", Request.Cookies["SessionEmail"].ToString());
+            }
             return View(loginView);
         }
         public ActionResult LogOff()
         {
             session.Clear();
+            Response.Cookies.Delete("SessionName");
+            Response.Cookies.Delete("SessionEmail");
             return RedirectToAction("login", "account");
             
+        }
+        public void Configure(IApplicationBuilder applicationBuilder)
+        {
+            var options = new SessionOptions
+            {
+                IdleTimeout = TimeSpan.FromSeconds(5),
+            };
+            applicationBuilder.UseSession(options);
         }
     }
 }

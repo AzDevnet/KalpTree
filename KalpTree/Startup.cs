@@ -44,18 +44,19 @@ namespace KalpTree
             services.Configure<KalpTreeAPI>(config => config.LoginApiUrl = LoginApiUrl);
 
             services.AddDistributedMemoryCache();
-            services.AddSession();// options => {
-              //  options.IdleTimeout = TimeSpan.FromMinutes(10);//You can set Time   
-           // });
+            services.AddSession( options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);//You can set Time   
+            });
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
-                options.CheckConsentNeeded = context => true; // consent required
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
             });
-
             services.AddSession(opts =>
             {
                 opts.Cookie.IsEssential = true; // make the session cookie Essential
