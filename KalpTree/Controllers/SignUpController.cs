@@ -36,30 +36,40 @@ namespace KalpTree.Controllers
         [HttpPost]
         public IActionResult SignUp([FromForm] SignUpViewModel signUpViewModel,[FromQuery] string userType)
         {
-            ViewBag.UserType = userType;
-            if (ModelState.IsValid)
+            try
             {
-                if (Captcha.ValidateCaptchaCode(signUpViewModel.CaptchaCode, HttpContext))
-                {
-                    HttpClient webClient = new HttpClient();
 
-                    string contentString = JsonConvert.SerializeObject(signUpViewModel, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
-                    var buffer = System.Text.Encoding.UTF8.GetBytes(contentString);
-                    var byteContent = new ByteArrayContent(buffer);
-                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    Task<HttpResponseMessage> request = webClient.PostAsync(kalpTreeAPI.LoginApiUrl, byteContent);
-                    request.Wait();
-                    if (request.Result.IsSuccessStatusCode)
+                ViewBag.UserType = userType;
+                if (ModelState.IsValid)
+                {
+                    if (Captcha.ValidateCaptchaCode(signUpViewModel.CaptchaCode, HttpContext))
                     {
-                        ViewBag.SuccessCode = "1";
-                        ModelState.Clear();
+                        HttpClient webClient = new HttpClient();
+
+                        string contentString = JsonConvert.SerializeObject(signUpViewModel, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+                        var buffer = System.Text.Encoding.UTF8.GetBytes(contentString);
+                        var byteContent = new ByteArrayContent(buffer);
+                        byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                        Task<HttpResponseMessage> request = webClient.PostAsync(kalpTreeAPI.LoginApiUrl, byteContent);
+                        request.Wait();
+                        if (request.Result.IsSuccessStatusCode)
+                        {
+                            ViewBag.SuccessCode = "1";
+                            ModelState.Clear();
+                        }
+                        else
+                            ViewBag.SuccessCode = "0";
                     }
                     else
-                        ViewBag.SuccessCode = "0";
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid Captch");
+                    }
                 }
-                else {
-                    ModelState.AddModelError(string.Empty, "Invalid Captch");
-                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
                 return View();
         }

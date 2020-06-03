@@ -49,17 +49,31 @@ namespace KalpTree.Controllers
                     session.SetString("SessionEmail", jsondata[0].userlogonid);
 
                     Response.Cookies.Append("SessionEmail", jsondata[0].userlogonid,
-                        new CookieOptions() {
+                        new CookieOptions()
+                        {
                             Expires = DateTime.Now.AddDays(2),
-                            IsEssential=true
+                            IsEssential = true
                         });
+
+                    Response.Cookies.Append("SessionEmail", "Jkumar@Gmail.com",
+                        new CookieOptions()
+                        {
+                            Expires = DateTime.Now.AddDays(2),
+                            IsEssential = true
+                       });
                     Response.Cookies.Append("SessionName", jsondata[0].userfname + " " + jsondata[0].userlname,
                         new CookieOptions()
                         {
                             Expires = DateTime.Now.AddDays(2),
-                            IsEssential=true
+                            IsEssential = true
                         });
-                    
+
+                    Response.Cookies.Append("SessionName", "Jyoti Kumar",
+                        new CookieOptions()
+                        {
+                            Expires = DateTime.Now.AddDays(2),
+                            IsEssential = true
+                        });
                     string url = string.Format("/home/index");
                     return Redirect(url);
                 }
