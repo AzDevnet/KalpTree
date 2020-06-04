@@ -11,5 +11,6 @@ namespace KalpTree.Models
         public string Key { get; set; }
         public string CX { get; set; }
 
+        public string ChatBoardApi { get; set; }
     }
 }

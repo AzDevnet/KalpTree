@@ -7,15 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using KalpTree.Models;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace KalpTree.Controllers
 {
     public class HomeController : Controller
     {
         public readonly ISession session;
-        public HomeController(IHttpContextAccessor httpContextAccessor)
+        private GoogleSearchAPI googleSearchAPI;
+        public HomeController(IHttpContextAccessor httpContextAccessor, IOptions<GoogleSearchAPI> optionsAccessor)
         {
             session = httpContextAccessor.HttpContext.Session;
+            googleSearchAPI = optionsAccessor.Value;
         }
         public IActionResult Index()
         {
@@ -24,7 +27,7 @@ namespace KalpTree.Controllers
                 session.SetString("SessionName", Request.Cookies["SessionName"].ToString());
                 session.SetString("SessionEmail", Request.Cookies["SessionEmail"].ToString());
             }
-
+            ViewBag.ChatBoard = googleSearchAPI.ChatBoardApi;
             return View();
         }
 

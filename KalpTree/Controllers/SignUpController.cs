@@ -54,8 +54,10 @@ namespace KalpTree.Controllers
                         request.Wait();
                         if (request.Result.IsSuccessStatusCode)
                         {
-                            ViewBag.SuccessCode = "1";
-                            ModelState.Clear();
+                            string url = string.Format("/MyAccount/index");
+                            return Redirect(url);
+                           // ViewBag.SuccessCode = "1";
+                           // ModelState.Clear();
                         }
                         else
                             ViewBag.SuccessCode = "0";

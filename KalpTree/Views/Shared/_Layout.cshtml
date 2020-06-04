@@ -22,9 +22,21 @@
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/Chat.css" />
     @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>*@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        function openForm() {
+            
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+
+    </script>
 </head>
 <body>
     <header>
@@ -81,8 +93,13 @@
 
                             @*</li>*@
                         }
+                        <img src="~/images/chat.gif" onclick="openForm()"  height="40px" width="40px"/>
+                        <div class="chat-popup" id="myForm">
+                            <button type="button" class="btn cancel" onclick="closeForm()" style="background-color:red">Close</button>
+                            <iframe src="@ViewBag.ChatBoard" frameborder="0" width="100%" height="100%"></iframe>
+                        </div>
+                        </div>
                     </div>
-                </div>
             </div>
         </nav>
     </header>
@@ -97,6 +114,7 @@
         <div class="container">
             &copy; 2020 - KalpTree - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
+
     </footer>
 
     <environment include="Development">

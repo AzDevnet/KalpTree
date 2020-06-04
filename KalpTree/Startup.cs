@@ -36,11 +36,14 @@ namespace KalpTree
             var GoogleSearchApiURL = Configuration["Appconfig:GoogleSearchApiURL"].ToString();
             var GoogleSearchApiKey = Configuration["Appconfig:GoogleSearchApiKey"].ToString();
             var GoogleSearchApiCX = Configuration["Appconfig:GoogleSearchApiCX"].ToString();
+            var ChatBoardApi = Configuration["Appconfig:ChatBoardApi"].ToString();
+
             var LoginApiUrl = Configuration["LoginApi:LoginApiUrl"].ToString();
 
             services.Configure<GoogleSearchAPI>(config => config.url = GoogleSearchApiURL);
             services.Configure<GoogleSearchAPI>(config => config.Key = GoogleSearchApiKey);
             services.Configure<GoogleSearchAPI>(config => config.CX = GoogleSearchApiCX);
+            services.Configure<GoogleSearchAPI>(config => config.ChatBoardApi = ChatBoardApi);
             services.Configure<KalpTreeAPI>(config => config.LoginApiUrl = LoginApiUrl);
 
             services.AddDistributedMemoryCache();

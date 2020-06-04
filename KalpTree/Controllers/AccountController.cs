@@ -74,7 +74,7 @@ namespace KalpTree.Controllers
                             Expires = DateTime.Now.AddDays(2),
                             IsEssential = true
                         });
-                    string url = string.Format("/home/index");
+                    string url = string.Format("/MyAccount/index");
                     return Redirect(url);
                 }
             }
