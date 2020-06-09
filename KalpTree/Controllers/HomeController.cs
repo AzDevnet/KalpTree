@@ -14,11 +14,9 @@ namespace KalpTree.Controllers
     public class HomeController : Controller
     {
         public readonly ISession session;
-        private GoogleSearchAPI googleSearchAPI;
-        public HomeController(IHttpContextAccessor httpContextAccessor, IOptions<GoogleSearchAPI> optionsAccessor)
+        public HomeController(IHttpContextAccessor httpContextAccessor)
         {
             session = httpContextAccessor.HttpContext.Session;
-            googleSearchAPI = optionsAccessor.Value;
         }
         public IActionResult Index()
         {
@@ -26,8 +24,9 @@ namespace KalpTree.Controllers
             {
                 session.SetString("SessionName", Request.Cookies["SessionName"].ToString());
                 session.SetString("SessionEmail", Request.Cookies["SessionEmail"].ToString());
+                session.SetString("SessionUserType", Request.Cookies["SessionUserType"].ToString());
             }
-            ViewBag.ChatBoard = googleSearchAPI.ChatBoardApi;
+            
             return View();
         }
 

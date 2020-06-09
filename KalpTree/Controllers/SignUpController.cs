@@ -22,8 +22,10 @@ namespace KalpTree.Controllers
         
         // GET: /<controller>/
         private KalpTreeAPI kalpTreeAPI;
-        public SignUpController(IOptions<KalpTreeAPI> options)
+        public readonly ISession session;
+        public SignUpController(IHttpContextAccessor httpContextAccessor, IOptions<KalpTreeAPI> options)
         {
+            session = httpContextAccessor.HttpContext.Session;
             kalpTreeAPI = options.Value;
         }
         [HttpGet]
@@ -40,6 +42,8 @@ namespace KalpTree.Controllers
             {
 
                 ViewBag.UserType = userType;
+
+                
                 if (ModelState.IsValid)
                 {
                     if (Captcha.ValidateCaptchaCode(signUpViewModel.CaptchaCode, HttpContext))
@@ -54,10 +58,13 @@ namespace KalpTree.Controllers
                         request.Wait();
                         if (request.Result.IsSuccessStatusCode)
                         {
-                            string url = string.Format("/MyAccount/index");
+                            session.SetString("SessionName", signUpViewModel.userfname+" "+ signUpViewModel.userlname);
+                            session.SetString("SessionEmail", signUpViewModel.userlogonid);
+                            session.SetString("SessionUserType", signUpViewModel.userrole);
+                            string url = string.Format("/MyAccount/MyAccount");
                             return Redirect(url);
-                           // ViewBag.SuccessCode = "1";
-                           // ModelState.Clear();
+                            // ViewBag.SuccessCode = "1";
+                            // ModelState.Clear();
                         }
                         else
                             ViewBag.SuccessCode = "0";
