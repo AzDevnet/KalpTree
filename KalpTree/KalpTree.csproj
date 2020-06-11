@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <DockerTargetOS>Linux</DockerTargetOS>
     <!--<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>beea72b5-abd8-4cf6-9583-380eaabdcc88</UserSecretsId>-->
   </PropertyGroup>
@@ -22,12 +23,17 @@
     <None Remove="images\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Dockerfile.original" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="4.0.40804" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.1916590" />
     <PackageReference Include="PagedList.Mvc" Version="4.5.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
   </ItemGroup>
