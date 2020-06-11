@@ -1,10 +1,26 @@
-﻿@*
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@inject IHttpContextAccessor HttpContextAccessor
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
     ViewBag.Title = "My Account";
 }
 <script>
+    $(document).ready(function () {
+        var sellProd = document.getElementById('divSellProd');
+        var experts = document.getElementById('divExperts');
+        var dropBox = document.getElementById('divDropBox');
+
+        sellProd.style.display = "none";
+        experts.style.display = "none";
+        dropBox.style.display = "none";
+    });
+    
+
     function myFunction(obj) {
         var x = document.getElementById(obj);
         var sellProd = document.getElementById('divSellProd');
@@ -33,12 +49,13 @@
             <td width="25%" style="vertical-align:top">
                 <table width="100%" class="tableBorderClass">
                     <tbody>
-                        <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"> <b>MyAccount</b></td></tr>
-                        <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" onclick="javaScript:myFunction('divSellProd')">My Products</a></td></tr>
+                        <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"> <b>@HttpContextAccessor.HttpContext.Session.GetString("SessionUserType")</b></td></tr>
+                        <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" onclick="javaScript:myFunction('divSellProd')">Farm Products</a></td></tr>
+                        <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" title="Under Construction">Add Products</a></td></tr>
                         <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" onclick="javaScript:myFunction('divExperts')">Find Experts</a></td></tr>
-                        <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" onclick="javaScript:myFunction('divDropBox')">Dropbox</a></td></tr>
-                        <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark">Profile</a></td></tr>
-                        <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark">Change password</a></td></tr>
+                        <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" onclick="javaScript:myFunction('divDropBox')">Need Solutions</a></td></tr>
+                        <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" title="Under Construction">Profile</a></td></tr>
+                        <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" title="Under Construction">Change password</a></td></tr>
                     </tbody>
                 </table>
             </td>
@@ -46,7 +63,7 @@
                 <div id="divSellProd" style="display:inline-block;position:relative;">
                     <table width="90%" align="center" class="tableBorderClass">
                         <tbody>
-                            <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"><b>My Products</b></td></tr>
+                            <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"><b>Farm Products</b></td></tr>
                             <tr>
                                 <td class="tabletdBorderClass">
                                     <span>
@@ -83,7 +100,7 @@
                     </table>
                 </div>
 
-                <div id="divExperts" style="display:inline-block;position:relative; top:-50px">
+                <div id="divExperts" style="display:inline-block;position:relative; top:-85px">
                     <table width="90%" align="center" class="tableBorderClass">
                         <tbody>
                             <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"><b>Find Experts</b></td></tr>
@@ -110,17 +127,18 @@
                     </table>
                 </div>
 
-                <div id="divDropBox" style="display:inline-block;position:relative; top:-13px">
+                <div id="divDropBox" style="display:inline-block;position:relative; top:-37px">
                     <table width="90%" align="center" class="tableBorderClass">
                         <tbody>
-                            <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"><b>Drop box</b></td></tr>
+                            <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"><b>Need Solutions</b></td></tr>
                             <tr>
                                 <td class="tabletdBorderClass">
+                                    Upload picture of unhealthy crop to get expert suggestion.
                                     <iframe width="100%" height="300px" frameborder="0" src="https://image-classify-roiue-cc-uc-other-industrial-oracle-team-c.container-crush-02-4044f3a4e314f4bcb433696c70d13be9-0000.eu-de.containers.appdomain.cloud/"></iframe>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </td>
         </tr>
