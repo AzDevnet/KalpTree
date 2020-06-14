@@ -10,6 +10,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>Docker\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -40,6 +41,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Docker\netcoreapp2.2\" />
     <Folder Include="Views\NewFolder\" />
   </ItemGroup>
 
