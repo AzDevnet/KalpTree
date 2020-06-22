@@ -28,7 +28,12 @@ namespace KalpTree.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            if (!string.IsNullOrWhiteSpace(Convert.ToString(Request.Cookies["SessionEmail"])))
+            {
+                string url = string.Format("/MyAccount/MyAccount");
+                return Redirect(url);
+            }
+                return View();
         }
 
         [HttpPost]
@@ -40,63 +45,71 @@ namespace KalpTree.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        session.SetString("SessionName", "Jyoti Kumar");
-                        session.SetString("SessionEmail", "Jkumar@Gmail.com");
-                        session.SetString("SessionUserType", "Farmer");
+                        //session.SetString("SessionName", "Jyoti Kumar");
+                        //session.SetString("SessionEmail", "Jkumar@Gmail.com");
+                        //session.SetString("SessionUserType", "Farmer");
 
-                        string url = string.Format("/MyAccount/MyAccount");
-                        return Redirect(url);
+                        //string url = string.Format("/MyAccount/MyAccount");
+                        //return Redirect(url);
 
                         WebClient webClient = new WebClient();
                         webClient.Headers.Add("user-agent", "Only a test!");
-                        var request = webClient.DownloadString(kalpTreeAPI.LoginApiUrl + "?UserId=" + loginView.Email + "&Password=" + loginView.Password);
+                        var request = webClient.DownloadString(kalpTreeAPI.LoginApiUrl +  loginView.Email+"," + loginView.Password);
 
-                        List<UserDetails> jsondata = JsonConvert.DeserializeObject<List<UserDetails>>(request);
+                        if (request.ToString().Contains("No User Found"))
+                        {
+                            ModelState.AddModelError(string.Empty, "The user name or password is incorrect");
+                            return View(loginView);
+                        }
+
+                       UserDetails jsondata = JsonConvert.DeserializeObject<UserDetails>(request);
 
 
-                        session.SetString("SessionName", jsondata[0].userfname + " " + jsondata[0].userlname);
-                        session.SetString("SessionEmail", jsondata[0].userlogonid);
+                        session.SetString("SessionName", jsondata.userfname + " " + jsondata.userlname);
+                        session.SetString("SessionEmail", jsondata.userlogonid);
+                        session.SetString("SessionUserType", jsondata.userrole);
 
-                        //Response.Cookies.Append("SessionEmail", jsondata[0].userlogonid,
+                        Response.Cookies.Append("SessionEmail", jsondata.userlogonid,
+                            new CookieOptions()
+                            {
+                                Expires = DateTime.Now.AddDays(2),
+                                IsEssential = true
+                            });
+
+                        //Response.Cookies.Append("SessionEmail", "Jkumar@Gmail.com",
                         //    new CookieOptions()
                         //    {
                         //        Expires = DateTime.Now.AddDays(2),
                         //        IsEssential = true
                         //    });
-
-                        Response.Cookies.Append("SessionEmail", "Jkumar@Gmail.com",
+                        Response.Cookies.Append("SessionName", jsondata.userfname + " " + jsondata.userlname,
                             new CookieOptions()
                             {
                                 Expires = DateTime.Now.AddDays(2),
                                 IsEssential = true
                             });
-                        //Response.Cookies.Append("SessionName", jsondata[0].userfname + " " + jsondata[0].userlname,
+
+                        //Response.Cookies.Append("SessionName", "Jyoti Kumar",
                         //    new CookieOptions()
                         //    {
                         //        Expires = DateTime.Now.AddDays(2),
                         //        IsEssential = true
                         //    });
-
-                        Response.Cookies.Append("SessionName", "Jyoti Kumar",
+                        Response.Cookies.Append("SessionUserType", jsondata.userrole,
                             new CookieOptions()
                             {
                                 Expires = DateTime.Now.AddDays(2),
                                 IsEssential = true
                             });
-                        Response.Cookies.Append("SessionUserType", "Farmer",
-                            new CookieOptions()
-                            {
-                                Expires = DateTime.Now.AddDays(2),
-                                IsEssential = true
-                            });
-                        //string url = string.Format("/MyAccount/index");
-                        //return Redirect(url);
+                        string url = string.Format("/MyAccount/MyAccount");
+                        return Redirect(url);
                     }
                 }
                 else
                 {
                     session.SetString("SessionName", Request.Cookies["SessionName"].ToString());
                     session.SetString("SessionEmail", Request.Cookies["SessionEmail"].ToString());
+                    session.SetString("SessionUserType", Request.Cookies["SessionUserType"].ToString());
                 }
             }
             catch (Exception ex)

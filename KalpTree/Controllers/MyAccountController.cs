@@ -29,5 +29,29 @@ namespace KalpTree.Controllers
             }
             return View();
         }
+        //to do
+        [HttpPost]
+        public string AddFarmProduct([FromForm] AddFarmProductViewModel addFarmProduct) {
+            string result;
+            try
+            {
+              
+                if (ModelState.IsValid)
+                {
+                    var fileName = System.IO.Path.GetFileName(addFarmProduct.productImage.FileName);
+                    ViewBag.FarmProduct = "1";
+                    result = "Successfully added";
+                    System.Threading.Thread.Sleep(1000);
+                }
+                else
+                    result = "Something went wrong";
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+              //  throw;
+            }
+            return result;
+        }
     }
 }

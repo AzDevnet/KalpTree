@@ -3,55 +3,163 @@
 @inject IConfiguration Configuration
 
 @inject IHttpContextAccessor HttpContextAccessor
+@model AddFarmProductViewModel
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
     ViewBag.Title = "My Account";
 }
+@Html.ValidationSummary(true);
+<link rel="stylesheet" href="~/css/site.css" />
 <script>
-    $(document).ready(function () {
-        var sellProd = document.getElementById('divSellProd');
-        var experts = document.getElementById('divExperts');
-        var dropBox = document.getElementById('divDropBox');
+    //$(document).ready(function () {
+    //    var sellProd = document.getElementById('divSellProd');
+    //    var experts = document.getElementById('divExperts');
+    //    var dropBox = document.getElementById('divDropBox');
+    //    var addFarmProduct = document.getElementById('divAddFarmProduct');
 
-        sellProd.style.display = "none";
-        experts.style.display = "none";
-        dropBox.style.display = "none";
-    });
-    
+    //    sellProd.style.display = "none";
+    //    experts.style.display = "none";
+    //    dropBox.style.display = "none";
+    //    addFarmProduct.style.display = "none";
+
+
+    //});
+
 
     function myFunction(obj) {
         var x = document.getElementById(obj);
+        var divMyAccount = document.getElementById('MyAccount');
         var sellProd = document.getElementById('divSellProd');
         var experts = document.getElementById('divExperts');
         var dropBox = document.getElementById('divDropBox');
-
+        var addFarmProduct = document.getElementById('divAddFarmProduct');
+        //alert(x.innerHTML);
         sellProd.style.display = "none";
         experts.style.display = "none";
         dropBox.style.display = "none";
+        addFarmProduct.style.display = "none";
 
 
         x.style.display = "block";
-
+        x.style.top = divMyAccount.style.top;
+        //alert(x.style.top);
         //if (x.style.display === "none") {
         //    x.style.display = "block";
         //} else {
         //    x.style.display = "none";
         //}
     }
+    //$(function () {
+    //    $("#btnSubmit").click(function (e) {
+    //        e.preventDefault();
+    //        var _this = $(this);
+    //        var _form = _this.closest("form");
+
+    //        if (_form.validate().valid()) {
+    //            $.post(_form.attr("action"), _form.serialize(), function (data) {
+    //                //check the result and do whatever you want
+    //            });
+    //        }
+    //    });
+
+    //});
+
+    function UploadFile() {
+        //alert();
+        var error="";
+        var ValidationSummary = document.getElementById('ValidationSummary');
+        var fileUpload = $("#productImage").get(0);
+        var productionDescription = $("#prodDescription").val();
+        var weight = $("#weight").val();
+        var price = $("#price").val();
+        if (fileUpload.files[0] == '' || fileUpload.files[0]==null) {
+            error = "Product image is required.<br>";
+        }
+        if (productionDescription == '' || productionDescription == null) {
+            error = error+"Product description is required.<br>";
+        }
+        
+        if (weight == '' || weight == null) {
+            
+            error = error + "Product weight is required.<br>";
+        }
+        else if (isNaN(weight)) {
+           
+            error = error + "Product weight should be in numeric.<br>";
+        } 
+        if (price == '' || price == null) {
+            
+            error = error + "Product price is required.<br>";
+        }
+        else if (isNaN(price)) {
+            error = error + "Product price should be in numeric.<br>";
+        }
+
+        if (error.trim() != '') {
+            
+            ValidationSummary.style.display = "block";
+            ValidationSummary.innerHTML = error;
+        }
+        else {
+            
+            var files = fileUpload.files;
+            var data = new FormData();
+            data.append("productImage", files[0]);
+            data.append("prodDescription", productionDescription);
+            data.append("weight", weight);
+            data.append("price",price);
+            $.ajax({
+                type: "POST",
+                url: "/MyAccount/AddFarmProduct",
+                contentType: false,
+                processData: false,
+                data: data,
+                async: false,
+
+                beforeSend: function () {
+                   // $("#divloader").show()
+                    var ValidationSummary = document.getElementById('ValidationSummary');
+                },
+
+                success: function (message) {
+                   // alert(message);
+                    ValidationSummary.style.display = "block";
+                    ValidationSummary.innerHTML = "<b>" + message;
+                    $("#productImage").val("");
+                    $("#prodDescription").val("");
+                    $("#weight").val("");
+                    $("#price").val("");
+
+                },
+
+                error: function () {
+                    alert("Error!");
+                },
+
+                complete: function () {
+                    $("#divloader").hide()
+                }
+
+            });
+        }
+    }
+
+
 </script>
-<div id="MyAccount">
+
+<div id="MyAccount" style="display:block;">
 
     <table align="center" width="90%">
 
         <tr>
-            <td width="25%" style="vertical-align:top">
-                <table width="100%" class="tableBorderClass">
+            <td width="25%" style="vertical-align:top;">
+                <table width="100%" class="tableBorderClass" style="vertical-align:top;">
                     <tbody>
                         <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"> <b>@HttpContextAccessor.HttpContext.Session.GetString("SessionUserType")</b></td></tr>
                         <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" onclick="javaScript:myFunction('divSellProd')">Farm Products</a></td></tr>
-                        <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" title="Under Construction">Add Products</a></td></tr>
+                        <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" onclick="javaScript:myFunction('divAddFarmProduct')">Add Products</a></td></tr>
                         <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" onclick="javaScript:myFunction('divExperts')">Find Experts</a></td></tr>
                         <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" onclick="javaScript:myFunction('divDropBox')">Need Solutions</a></td></tr>
                         <tr><td class="tabletdBorderClass"> <a href="#" class="nav-link text-dark" title="Under Construction">Profile</a></td></tr>
@@ -59,8 +167,8 @@
                     </tbody>
                 </table>
             </td>
-            <td width="75%">
-                <div id="divSellProd" style="display:inline-block;position:relative;">
+            <td width="75%" style="vertical-align:top;">
+                <div id="divSellProd" class="myAccountDiv">
                     <table width="90%" align="center" class="tableBorderClass">
                         <tbody>
                             <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"><b>Farm Products</b></td></tr>
@@ -100,7 +208,7 @@
                     </table>
                 </div>
 
-                <div id="divExperts" style="display:inline-block;position:relative; top:-85px">
+                <div id="divExperts" class="myAccountDiv">
                     <table width="90%" align="center" class="tableBorderClass">
                         <tbody>
                             <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"><b>Find Experts</b></td></tr>
@@ -127,7 +235,7 @@
                     </table>
                 </div>
 
-                <div id="divDropBox" style="display:inline-block;position:relative; top:-2px">
+                <div id="divDropBox" class="myAccountDiv">
                     <table width="90%" align="center" class="tableBorderClass">
                         <tbody>
                             <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"><b>Need Solutions</b></td></tr>
@@ -135,6 +243,68 @@
                                 <td class="tabletdBorderClass">
                                     Upload picture of unhealthy crop to get expert suggestion.
                                     <iframe width="100%" height="400px" frameborder="0" src="https://image-classify-roiue-cc-uc-other-industrial-oracle-team-c.container-crush-02-4044f3a4e314f4bcb433696c70d13be9-0000.eu-de.containers.appdomain.cloud/"></iframe>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="divAddFarmProduct" class="myAccountDiv">
+                    <table width="90%" align="center" class="tableBorderClass">
+                        <tbody>
+                            <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"><b>Add farm products</b></td></tr>
+                            <tr>
+                                <td class="tabletdBorderClass">
+                                    <form method="post" enctype="multipart/form-data">
+                                        <table width="100%">
+                                            <tr>
+                                                <td width="50%">
+                                                    
+                                                    <div id="ValidationSummary" class="text-danger" style="display:none;"></div>
+                                                    <table width="100%">
+
+                                                        <tr class="tr">
+                                                            <td>Product description</td>
+                                                            <td>
+                                                                <textarea maxlength="1000" placeholder="Enter product description" asp-for="prodDescription" 
+class="form-control" style="width:60%"></textarea>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Weight</td>
+                                                            <td>
+                                                                <input asp-for="weight" class="form-control" placeholder="Enter weight in kg" style="width:60%"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="tr">
+                                                            <td>Price</td>
+                                                            <td><input asp-for="price" class="form-control" placeholder="Enter price" style="width:60%"/> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Upload product image</td>
+                                                            <td>
+                                                                @*<input asp-for="productImage" type="file" class="custom-file-input" id="productImage">*@
+                                                                <input type="file" id="productImage" name="productImage" />
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td></td>
+                                                            <td>
+                                                                @*<button type="submit" class="btn btn-primary">Add farm product</button>*@
+                                                                <input type="button" id="btnSubmit" value="Add farm product" onclick="UploadFile()" class="btn btn-primary">
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                        <div id="divloader" class="divloader">
+                                            @*<img src="~/images/64x64.gif" />*@
+                                        </div>
+
+                                    </form>
                                 </td>
                             </tr>
                         </tbody>

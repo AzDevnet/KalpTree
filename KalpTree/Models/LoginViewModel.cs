@@ -21,5 +21,7 @@ namespace KalpTree.Models
         
         [Display(Name ="Remember me")]
         public string RememberMe { get; set; }
+
+        public string error { get; set; }
     }
 }

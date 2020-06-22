@@ -17,4 +17,5 @@ RUN dotnet publish "KalpTree.csproj" -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
+USER 1122
 ENTRYPOINT ["dotnet", "KalpTree.dll"]

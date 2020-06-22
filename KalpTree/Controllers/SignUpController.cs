@@ -40,10 +40,14 @@ namespace KalpTree.Controllers
         {
             try
             {
+                ViewBag.UserType = signUpViewModel.userrole;
+                //ViewBag.UserType = userType;
+                //session.SetString("SessionName", signUpViewModel.userfname + " " + signUpViewModel.userlname);
+                //session.SetString("SessionEmail", signUpViewModel.userlogonid);
+                //session.SetString("SessionUserType", signUpViewModel.userrole);
+                //string url1 = string.Format("/MyAccount/MyAccount");
+                //return Redirect(url1);
 
-                ViewBag.UserType = userType;
-
-                
                 if (ModelState.IsValid)
                 {
                     if (Captcha.ValidateCaptchaCode(signUpViewModel.CaptchaCode, HttpContext))
@@ -72,8 +76,10 @@ namespace KalpTree.Controllers
                     else
                     {
                         ModelState.AddModelError(string.Empty, "Invalid Captch");
+                        
                     }
                 }
+                
             }
             catch (Exception)
             {
