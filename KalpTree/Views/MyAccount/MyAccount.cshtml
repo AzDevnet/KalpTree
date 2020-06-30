@@ -68,29 +68,29 @@
 
     function UploadFile() {
         //alert();
-        var error="";
+        var error = "";
         var ValidationSummary = document.getElementById('ValidationSummary');
         var fileUpload = $("#productImage").get(0);
         var productionDescription = $("#prodDescription").val();
         var weight = $("#weight").val();
         var price = $("#price").val();
-        if (fileUpload.files[0] == '' || fileUpload.files[0]==null) {
+        if (fileUpload.files[0] == '' || fileUpload.files[0] == null) {
             error = "Product image is required.<br>";
         }
         if (productionDescription == '' || productionDescription == null) {
-            error = error+"Product description is required.<br>";
+            error = error + "Product description is required.<br>";
         }
-        
+
         if (weight == '' || weight == null) {
-            
+
             error = error + "Product weight is required.<br>";
         }
         else if (isNaN(weight)) {
-           
+
             error = error + "Product weight should be in numeric.<br>";
-        } 
+        }
         if (price == '' || price == null) {
-            
+
             error = error + "Product price is required.<br>";
         }
         else if (isNaN(price)) {
@@ -98,18 +98,18 @@
         }
 
         if (error.trim() != '') {
-            
+
             ValidationSummary.style.display = "block";
             ValidationSummary.innerHTML = error;
         }
         else {
-            
+
             var files = fileUpload.files;
             var data = new FormData();
             data.append("productImage", files[0]);
             data.append("prodDescription", productionDescription);
             data.append("weight", weight);
-            data.append("price",price);
+            data.append("price", price);
             $.ajax({
                 type: "POST",
                 url: "/MyAccount/AddFarmProduct",
@@ -119,12 +119,12 @@
                 async: false,
 
                 beforeSend: function () {
-                   // $("#divloader").show()
+                    // $("#divloader").show()
                     var ValidationSummary = document.getElementById('ValidationSummary');
                 },
 
                 success: function (message) {
-                   // alert(message);
+                    // alert(message);
                     ValidationSummary.style.display = "block";
                     ValidationSummary.innerHTML = "<b>" + message;
                     $("#productImage").val("");
@@ -136,7 +136,7 @@
 
                 error: function () {
                     alert("Error!");
-                },
+        result        },
 
                 complete: function () {
                     $("#divloader").hide()
@@ -144,6 +144,41 @@
 
             });
         }
+    }
+   
+    function problemResult() {
+       // alert();
+        $.ajax({
+            //"async": true,
+            "url": "https://imagjson5-route-cc-uc-other-industrial-oracle-team-c.container-crush-02-4044f3a4e314f4bcb433696c70d13be9-0000.eu-de.containers.appdomain.cloud/results",
+            "method": "GET",
+            "headers": {
+                "Content-Type": "application/json",
+                "cache-control": "no-cache"
+                
+            },
+            success: function (message) {
+                alert(message);
+                //ValidationSummary.style.display = "block";
+                //ValidationSummary.innerHTML = "<b>" + message;
+                //$("#productImage").val("");
+                //$("#prodDescription").val("");
+                //$("#weight").val("");
+                //$("#price").val("");
+
+            },
+
+            error: function (errormessage) {
+               // alert(errormessage.responseText);
+                
+            },
+
+            complete: function () {
+                $("#divloader").hide()
+            }
+
+        });
+
     }
 
 
@@ -215,8 +250,8 @@
                             <tr>
                                 <td class="tabletdBorderClass">
                                     <img src="~/images/Organic Expert.gif" height="100px" width="100px" style="float: left" />
-                                    I am having 10 years in of experience in organic farming.I and my team are expert in growing organic vegitables.
-                                    Currently we are opreation in Begusarai, Bihar......<a href="#">more>></a>
+                                    I am having 20 years in of experience in organic farming.I and my team are expert in growing organic pulses.
+                                    Currently we are opreation in Patna, Bihar......<a href="#">more>></a>
 
 
                                 </td>
@@ -234,19 +269,54 @@
 
                     </table>
                 </div>
-
+                
+                
                 <div id="divDropBox" class="myAccountDiv">
+                    
                     <table width="90%" align="center" class="tableBorderClass">
                         <tbody>
                             <tr><td class="tabletdBorderClass" style="background-color:green;color:white;padding-left:30px;"><b>Need Solutions</b></td></tr>
+
                             <tr>
-                                <td class="tabletdBorderClass">
+                                <td class="tabletdBorderClass" valign="top">
                                     Upload picture of unhealthy crop to get expert suggestion.
-                                    <iframe width="100%" height="400px" frameborder="0" src="https://image-classify-roiue-cc-uc-other-industrial-oracle-team-c.container-crush-02-4044f3a4e314f4bcb433696c70d13be9-0000.eu-de.containers.appdomain.cloud/"></iframe>
+                                    <iframe id="myFrame" width="100%" height="350px" frameborder="0" src="https://image-classify-roiue-cc-uc-other-industrial-oracle-team-c.container-crush-02-4044f3a4e314f4bcb433696c70d13be9-0000.eu-de.containers.appdomain.cloud/"></iframe>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#" data-toggle="modal" data-target="#myModal" onclick="javaScript:problemResult()">Solution</a>
+
+                                    <div id="myModal" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Solution</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table>
+                                                        <tr>
+                                                            <td><img src="~/images/Pestisite1.jpeg" height="100px" width="100px" /></td>
+                                                            <td>Baits and traps are the best way to control these insects. Aphids – Aphids are probably the most common of spinach pests. Natural enemies generally keep them in check. If you need more help, use insecticidal soaps or neem oil.</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+
                 </div>
 
                 <div id="divAddFarmProduct" class="myAccountDiv">

@@ -45,12 +45,12 @@ namespace KalpTree.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        //session.SetString("SessionName", "Jyoti Kumar");
-                        //session.SetString("SessionEmail", "Jkumar@Gmail.com");
-                        //session.SetString("SessionUserType", "Farmer");
+                        session.SetString("SessionName", "Jyoti Kumar");
+                        session.SetString("SessionEmail", "Jkumar@Gmail.com");
+                        session.SetString("SessionUserType", "Farmer");
 
-                        //string url = string.Format("/MyAccount/MyAccount");
-                        //return Redirect(url);
+                        string url1 = string.Format("/MyAccount/MyAccount");
+                        return Redirect(url1);
 
                         WebClient webClient = new WebClient();
                         webClient.Headers.Add("user-agent", "Only a test!");

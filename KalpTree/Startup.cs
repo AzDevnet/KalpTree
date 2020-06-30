@@ -32,7 +32,16 @@ namespace KalpTree
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyOrigin();
+                    builder.AllowCredentials();
+                });
+            });
             var GoogleSearchApiURL = Configuration["Appconfig:GoogleSearchApiURL"].ToString();
             var GoogleSearchApiKey = Configuration["Appconfig:GoogleSearchApiKey"].ToString();
             var GoogleSearchApiCX = Configuration["Appconfig:GoogleSearchApiCX"].ToString();
@@ -80,6 +89,7 @@ namespace KalpTree
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseCors("CorsPolicy");
             app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
